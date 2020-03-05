@@ -1,0 +1,75 @@
+syntax = "proto3";
+import "proto/dao/onetime_key.proto";
+import "proto/dao/pre_key.proto";
+
+package bcm.dao.rpc;
+option cc_generic_services = true;
+
+
+message GetOneTimeKeyByUserReq {
+    string uid = 1;
+};
+
+message GetOneTimeKeyByUserResp {
+    uint32 resCode = 1;
+    repeated OnetimeKey keys = 2;
+};
+
+message GetOneTimeKeyByDeviceReq {
+    string uid = 1;
+    uint32 deviceId = 2;
+};
+
+message GetOneTimeKeyByDeviceResp {
+    uint32 resCode = 1;
+    OnetimeKey key = 2;
+};
+
+message SetOneTimeKeyReq {
+    string uid = 1;
+    uint32 deviceId = 2;
+    repeated OnetimeKey keys = 3;
+    string identityKey = 4;
+    SignedPreKey signedPreKey = 5;
+    uint32 registrationId = 6;
+};
+
+message SetOneTimeKeyResp {
+    uint32 resCode = 1;
+};
+
+message GetOneTimeKeyCountReq {
+    string uid = 1;
+    uint32 deviceId = 2;
+};
+
+message GetOneTimeKeyCountResp {
+    uint32 resCode = 1;
+    uint32 count = 2;
+};
+
+message ClearOneTimeKeyReq {
+    enum ClearType {
+        CLEAR_BY_UID    = 0;
+        CLEAR_BY_DEVICE = 1;
+    }
+
+    ClearType type = 1;
+    string uid = 2;
+    uint32 deviceId = 3;
+};
+
+message ClearOneTimeKeyResp {
+    uint32 resCode = 1;
+    string uid = 2;
+    uint32 deviceId = 3;
+};
+
+
+service OnetimeKeyService {
+      rpc getOneTimeKeyByUser(GetOneTimeKeyByUserReq) returns (GetOneTimeKeyByUserResp);
+      rpc getOneTimeKeyByDevice(GetOneTimeKeyByDeviceReq) returns (GetOneTimeKeyByDeviceResp);
+      rpc setOneTimeKey(SetOneTimeKeyReq) returns (SetOneTimeKeyResp);
+      rpc getOneTimeKeyCount(GetOneTimeKeyCountReq) returns (GetOneTimeKeyCountResp);
+      rpc clearOneTypeKey(ClearOneTimeKeyReq) returns (ClearOneTimeKeyResp);
+};

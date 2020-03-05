@@ -1,0 +1,36 @@
+syntax = "proto3";
+package bcm;
+
+message GroupUser {
+    enum Role{
+        ROLE_UNDEFINE = 0;
+        ROLE_OWNER = 1;
+        ROLE_ADMINISTROR = 2;
+        ROLE_MEMBER = 3;
+        ROLE_SUBSCRIBER = 4;
+    }
+
+    enum Status {
+        STATUS_DEFAULT = 0;
+        STATUS_MUTED = 1;
+    }
+
+    uint64 gid = 1;
+    string uid = 2;
+    string nick = 3;
+    uint64 updateTime = 4;
+    uint64 lastAckMid = 5;
+    Role role = 6;
+    int32 status = 7;
+    string encryptedKey = 8;
+    uint64 createTime = 9;
+
+    // encrypted profile
+    string nickname = 11;
+    string profileKeys = 12;
+    string groupNickname = 13;
+    string groupInfoSecret = 14;
+
+    // member proof
+    string proof = 15;
+}

@@ -1,0 +1,8 @@
+syntax = "proto3";
+package bcm;
+
+message SysMsg {
+    string destination = 1;
+    uint64 sysMsgId = 2;
+    string content = 3;
+}

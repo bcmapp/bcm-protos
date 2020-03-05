@@ -1,0 +1,52 @@
+syntax = "proto3";
+import "proto/dao/pre_key.proto";
+import "proto/dao/client_version.proto";
+package bcm;
+
+message Device {
+    enum DeviceId {
+        UNDEFINED = 0;
+        MASTER_ID = 1;
+    }
+
+    enum State {
+        STATE_NORMAL = 0;
+        STATE_LOGOUT = 1;
+        STATE_DELETED = 2;
+        STATE_CONFIRMED = 3;
+        STATE_UNKNOWN = -1;
+    }
+
+    uint32 id = 1;
+    string name = 2;
+    string authToken = 3;
+    string salt = 4;
+    string signalingKey = 5;
+    string gcmId = 6;
+    string umengId = 7;
+    string apnId = 8;
+    string voipApnId = 9;
+    string apnType = 10;
+    uint64 pushTimestamp = 11;
+    bool fetchesMessages = 12;
+    uint32 registrationId = 13;
+    uint32 version = 14;
+    SignedPreKey signedPreKey = 15;
+    uint64 lastSeenTime = 16;
+    uint64 createTime = 17;
+    bool supportVoice = 18;
+    bool supportVideo = 19;
+    string userAgent = 20;
+    ClientVersion clientVersion = 21;
+    State state = 22;
+    string features = 23;
+    string publicKey = 24;
+    string accountSignature = 25;
+}
+
+message DeviceField {
+    uint32 id = 1;
+    repeated string  modifyFields = 2;
+    bool isCreate = 3;
+    bool isErase  = 4;
+}

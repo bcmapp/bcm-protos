@@ -1,0 +1,106 @@
+syntax = "proto3";
+package bcm.dao.rpc;
+
+option cc_generic_services = true;
+
+// get message
+message GetContactReq {
+    string uid = 1;
+};
+message GetContactResp {
+    uint32 resCode = 1;
+    string contact = 2;
+};
+
+// set message
+message SetContactReq {
+    string uid = 1;
+    string contact = 2;
+};
+
+message SetContactResp {
+    uint32 resCode = 1;
+};
+
+///////////////////
+
+message ContactPartInfo {
+    string partKey   = 1;
+    string partValue = 2;
+};
+
+// get contact part
+message GetContactInPartsReq {
+    string uid = 1;
+    repeated string parts = 2;
+};
+
+message GetContactInPartsResp {
+    uint32 resCode = 1;
+    string uid = 2;
+    repeated ContactPartInfo contacts = 3;
+};
+
+message SetContactInPartsReq {
+    string uid = 1;
+    repeated ContactPartInfo contacts = 2;
+};
+
+message SetContactInPartsResp {
+    uint32 resCode = 1;
+    string uid = 2;
+};
+
+///////////////////////
+
+message SetFriendshipReq {
+    string uid = 1;
+    int32 type = 2;
+    bytes data = 3;
+}
+
+message SetFriendshipResp {
+    uint32 resCode = 1;
+    int64 id = 2;
+}
+
+message QueryFriendshipReq {
+    string uid = 1;
+    int32 type = 2;
+    int32 count = 3;
+};
+
+message Friendship {
+    int64 id = 1;
+    bytes data = 2;
+}
+
+message QueryFriendshipResp {
+    uint32 resCode = 1;
+    repeated Friendship data = 2;
+};
+
+message DelFriendshipReq {
+    string uid = 1;
+    int32 type = 2;
+    repeated int64 ids = 3;
+};
+
+message DelFriendshipResp {
+    uint32 resCode = 1;
+};
+
+
+
+service ContactService {
+    rpc getContact(GetContactReq) returns (GetContactResp);
+    rpc setContact(SetContactReq) returns (SetContactResp);
+
+    rpc getInParts(GetContactInPartsReq) returns (GetContactInPartsResp);
+    rpc setInParts(SetContactInPartsReq) returns (SetContactInPartsResp);
+
+    rpc setFriendship(SetFriendshipReq) returns (SetFriendshipResp);
+    rpc queryFriendship(QueryFriendshipReq) returns (QueryFriendshipResp);
+    rpc delFriendship(DelFriendshipReq) returns (DelFriendshipResp);
+};
+

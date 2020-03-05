@@ -1,0 +1,10 @@
+syntax = "proto3";
+package bcm;
+
+message PendingGroupUser {
+    uint64 gid = 1;
+    string uid = 2;
+    string inviter = 3;
+    string signature = 4;
+    string comment = 5;
+}

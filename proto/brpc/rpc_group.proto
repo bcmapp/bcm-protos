@@ -1,0 +1,92 @@
+syntax = "proto3";
+import "proto/dao/group.proto";
+package bcm.dao.rpc;
+
+option cc_generic_services = true;
+
+// create group
+message CreateGroupReq {
+    Group group = 1;
+};
+message CreateGroupResp {
+    uint32 resCode = 1;
+    uint64 groupId = 2;
+    Group group = 3;
+};
+
+// getLastMid
+message GetLastMidReq {
+    uint64 groupId = 1;
+}
+
+message GetLastMidResp {
+    uint32 resCode = 1;
+    uint64 groupId = 2;
+    uint64 lastMid = 3;
+}
+
+// get group information by groupid
+message GetGroupByGroupIdReq {
+    uint64 groupId = 1;
+}
+
+message GetGroupByGroupIdResp {
+    uint32 resCode = 1;
+    Group group    = 2;
+}
+
+// update Groups Information
+message UpdateGroupReq {
+    uint64 groupId = 1;
+    string updataJson = 2;
+};
+message UpdateGroupResp {
+    uint32 resCode = 1;
+    uint64 groupId = 2;
+    string updataJson = 3;
+};
+
+// delete group
+message DeleteGroupByGroupIdReq {
+    uint64 groupId = 1;
+}
+
+message DeleteGroupByGroupIdResp {
+    uint32 resCode = 1;
+    uint64 groupId = 2;
+}
+
+// group extension information
+message GroupExtensionPair {
+    string key = 1;
+    string value = 2;
+}
+message SetGroupExtensionReq {
+    uint64 groupId = 1;
+    repeated GroupExtensionPair extensions = 2;
+};
+message SetGroupExtensionResp {
+    uint32 resCode = 1;
+    uint64 groupId = 2;
+};
+
+message GetGroupExtensionReq {
+    uint64 groupId = 1;
+    repeated string extensionKeys = 2;
+};
+message GetGroupExtensionResp {
+    uint32 resCode = 1;
+    uint64 groupId = 2;
+    repeated GroupExtensionPair extensions = 3;
+};
+
+service GroupsService {
+    rpc createGroup(CreateGroupReq) returns (CreateGroupResp);
+    rpc getMaxMid(GetLastMidReq) returns (GetLastMidResp);
+    rpc getGroupInfoById(GetGroupByGroupIdReq) returns (GetGroupByGroupIdResp);
+    rpc updateGroup(UpdateGroupReq) returns (UpdateGroupResp);
+    rpc deleteGroup(DeleteGroupByGroupIdReq) returns (DeleteGroupByGroupIdResp);
+    rpc setGroupExtensionInfo(SetGroupExtensionReq) returns (SetGroupExtensionResp);
+    rpc getGroupExtensionInfo(GetGroupExtensionReq) returns (GetGroupExtensionResp);
+};
+

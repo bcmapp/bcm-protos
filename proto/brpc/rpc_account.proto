@@ -1,0 +1,89 @@
+syntax = "proto3";
+import "proto/dao/account.proto";
+import "proto/dao/device.proto";
+package bcm.dao.rpc;
+
+option cc_generic_services = true;
+
+// create account
+message CreateAccountReq {
+    Account acc = 1;
+};
+message CreateAccountResp {
+    uint32 resCode = 1;
+    Account acc = 2;
+};
+
+// update account
+message UpdateAccountReq {
+    Account acc = 1;
+    uint32  flags = 2;
+
+    AccountField updateField = 3;
+};
+message UpdateAccountResp {
+    uint32 resCode = 1;
+    Account acc = 2;
+    uint32  flags = 3;
+};
+
+// update account device
+message UpdateAccountDeviceReq {
+    Account acc = 1;
+    uint32  deviceId = 2;
+
+    DeviceField updateDeviceField = 3;
+};
+
+message UpdateAccountDeviceResp {
+    uint32 resCode = 1;
+    Account acc = 2;
+    uint32  deviceId = 3;
+};
+
+// get account
+message GetAccountReq {
+    string uid = 1;
+};
+message GetAccountResp {
+    uint32 resCode = 1;
+    Account acc = 2;
+};
+
+message GetMultiAccountsReq {
+    repeated string uids = 1;
+}
+
+message GetMultiAccountsResp {
+    uint32 resCode = 1;
+    repeated Account accounts = 2;
+}
+
+message GetKeysReq {
+    repeated string uids = 1;
+}
+
+message GetKeysResp {
+    uint32 resCode = 1;
+    repeated Keys keys = 2;
+}
+
+message GetKeysByGidReq {
+    uint64 gid = 1;
+}
+
+message GetKeysByGidResp {
+    uint32 resCode = 1;
+    repeated Keys keys = 2;
+}
+
+service AccountService {
+    rpc create(CreateAccountReq) returns (CreateAccountResp);
+    rpc updateAccount(UpdateAccountReq) returns (UpdateAccountResp);
+    rpc updateDevice(UpdateAccountDeviceReq) returns (UpdateAccountDeviceResp);
+    rpc getAccount(GetAccountReq) returns (GetAccountResp);
+    rpc getMultiAccounts(GetMultiAccountsReq) returns (GetMultiAccountsResp);
+    rpc getKeys(GetKeysReq) returns (GetKeysResp);
+    rpc getKeysByGid(GetKeysByGidReq) returns (GetKeysByGidResp);
+};
+

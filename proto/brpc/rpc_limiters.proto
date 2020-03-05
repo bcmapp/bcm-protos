@@ -1,0 +1,32 @@
+syntax="proto3";
+import "proto/dao/limiter.proto";
+
+package bcm.dao.rpc;
+option cc_generic_services = true;
+
+message LimiterInfo {
+    string key = 1;
+    bcm.Limiter limiter = 2;
+}
+
+message GetLimiterReq {
+    repeated string keys = 1;
+};
+
+message GetLimiterResp {
+    uint32 resCode = 1;
+    repeated LimiterInfo limiters = 2;
+};
+
+message SetLimiterReq {
+    repeated LimiterInfo limiters = 1;
+};
+
+message SetLimiterResp {
+    uint32 resCode = 1;
+};
+
+service LimiterService {
+    rpc getLimiter(GetLimiterReq) returns (GetLimiterResp);
+    rpc setLimiter(SetLimiterReq) returns (SetLimiterResp);
+};

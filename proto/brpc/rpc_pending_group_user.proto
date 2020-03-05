@@ -1,0 +1,60 @@
+syntax = "proto3";
+import "proto/dao/pending_group_user.proto";
+
+package bcm.dao.rpc;
+
+option cc_generic_services = true;
+
+message InsertPendingGroupUserReq {
+    PendingGroupUser user = 1;
+};
+message InsertPendingGroupUserResp {
+    uint32 resCode = 1;
+};
+
+message QueryPendingGroupUserReq {
+    uint64 gid = 1;
+    string startUid = 2;
+    int32 count = 3;
+};
+
+message QueryPendingGroupUserResp {
+    uint32 resCode = 1;
+    repeated PendingGroupUser users = 2;
+};
+
+message DelPendingGroupUserReq {
+    uint64 gid = 1;
+    repeated string uids = 2;
+};
+
+message DelPendingGroupUserResp {
+    uint32 resCode = 1;
+};
+
+message ClearPendingGroupUserReq {
+    uint64 gid = 1;
+};
+
+message ClearPendingGroupUserResp {
+    uint32 resCode = 1;
+};
+
+message GetPendingGroupUserReq {
+    uint64 gid = 1;
+    repeated string uids = 2;
+};
+
+message GetPendingGroupUserResp {
+    uint32 resCode = 1;
+    repeated PendingGroupUser users = 2;
+};
+
+service PendingGroupUserService {
+    rpc insert(InsertPendingGroupUserReq) returns (InsertPendingGroupUserResp);
+    rpc query(QueryPendingGroupUserReq) returns (QueryPendingGroupUserResp);
+    rpc del(DelPendingGroupUserReq) returns (DelPendingGroupUserResp);
+    rpc clear(ClearPendingGroupUserReq) returns (ClearPendingGroupUserResp);
+    rpc get(GetPendingGroupUserReq) returns (GetPendingGroupUserResp);
+};
+

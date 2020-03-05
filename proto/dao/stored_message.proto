@@ -1,0 +1,24 @@
+syntax = "proto3";
+package bcm;
+
+message StoredMessage {
+    enum MsgType {
+        MSGTYPE_UNKNOWN = 0;
+        MSGTYPE_CIPHERTEXT = 1;
+        MSGTYPE_KEY_EXCHANGE = 2;
+        MSGTYPE_PREKEY_BUNDLE = 3;
+        MSGTYPE_RECEIPT = 5;
+    }
+    uint64 id = 1;
+    MsgType msgType = 2;
+    string destination = 3;
+    uint32 destinationDeviceId = 4;
+    uint32 destinationRegistrationId = 10;
+    string source = 5;
+    uint32 sourceDeviceId = 6;
+    uint32 sourceRegistrationId = 11;
+    string relay = 7;
+    uint64 timestamp = 8;
+    bytes content = 9;
+    string sourceExtra = 13;
+}

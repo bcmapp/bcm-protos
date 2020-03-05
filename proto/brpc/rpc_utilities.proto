@@ -1,0 +1,39 @@
+syntax="proto3";
+
+package bcm.dao.rpc;
+option cc_generic_services = true;
+
+message GetLeaseReq {
+    string key = 1;
+    string value = 2;
+    uint32 ttlMs = 3;
+};
+
+message GetLeaseResp {
+    uint32 resCode = 1;
+};
+
+message RenewLeaseReq {
+    string key = 1;
+    string value = 2;
+    uint32 ttlMs = 3;
+};
+
+message RenewLeaseResp {
+    uint32 resCode = 1;
+};
+
+message ReleaseLeaseReq {
+    string key = 1;
+    string value = 2;
+};
+
+message ReleaseLeaseResp {
+    uint32 resCode = 1;
+};
+
+service LeaseService {
+    rpc getLease(GetLeaseReq) returns (GetLeaseResp);
+    rpc renewLease(RenewLeaseReq) returns (RenewLeaseResp);
+    rpc releaseLease(ReleaseLeaseReq) returns (ReleaseLeaseResp);
+};

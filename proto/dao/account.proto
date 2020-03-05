@@ -1,0 +1,63 @@
+syntax = "proto3";
+import "proto/dao/device.proto";
+import "proto/dao/bloom_filters.proto";
+import "proto/dao/pre_key.proto";
+import "proto/dao/onetime_key.proto";
+package bcm;
+
+message Account {
+    enum State {
+        NORMAL = 0;
+        DELETED = 1;
+    }
+    message Privacy {
+        bool acceptStrangerMsg = 1;
+    }
+    string uid = 1;
+    string openId = 2;
+    string publicKey = 3;
+    string identityKey = 4;
+    State state = 8;
+    Privacy privacy = 9;
+
+    // deprecated profile
+    string phoneNumber = 5;
+    string name = 6;
+    string avater = 7;
+
+    // encrypted profile for oneself
+    string hashNumber = 11;
+    string encryptNumber = 12;
+    string numberPubkey = 13;
+    // encrypted profile for everyone
+    string nickname = 14;
+    string ldAvatar = 15;
+    string hdAvatar = 16;
+    string profileKeys = 17;
+
+    // 18 dropped
+    ContactsFilters contactsFilters = 19;
+    uint32 slaveDeviceNum = 20;
+
+    // reserve 1-32 for other field
+    repeated Device devices = 33;
+    uint32 authDeviceId = 34;
+}
+
+message AccountField {
+    repeated string  modifyFields = 1;
+    repeated DeviceField devices = 2;
+    ContactsFiltersField  modifyFilters = 3;
+}
+
+message Keys {
+    string uid = 1;
+    uint32 deviceId = 2;
+    SignedPreKey signedPrekey = 3;
+    OnetimeKey onetimeKey = 4;
+    uint32 registrationId = 5;
+    string identityKey = 6; // device publickey
+    Device.State state = 7;
+    string accountPublicKey = 8; // account publickey
+    string accountSignature = 9; // account signature of identityKey + deviceId if deviceId != 1
+}

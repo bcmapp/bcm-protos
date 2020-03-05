@@ -1,0 +1,50 @@
+syntax="proto3";
+
+import "proto/dao/client_version.proto";
+
+package bcm.dao.rpc;
+
+message OnlineStat {
+    string uid = 1;
+    uint32 deviceId = 2;
+    string deviceName = 3;
+    bcm.ClientVersion clientVer = 4;
+    uint64 timestamp = 5;
+};
+
+message DateRange {
+    string start = 1;   // yyyyMMdd
+    string end = 2;     // yyyyMMdd
+};
+
+message OsVerRange {
+    string start = 1;
+    string end = 2;
+};
+
+message BcmVerRange {
+    string start = 1;
+    string end = 2;
+};
+
+message BcmBuildCodeRnage {
+    uint64 start = 1;
+    uint64 end = 2;
+};
+
+message QueryDauReq {
+    DateRange date = 1;
+    OsVerRange osVer = 2;
+    BcmVerRange bcmVer = 3;
+    BcmBuildCodeRnage bcmBuildCode = 4;
+    bcm.ClientVersion.OSType osType = 5;
+};
+
+message DauEntry {
+    string date = 1;    // yyyyMMdd
+    int32 dau = 2;
+};
+
+message QueryDauRes {
+    repeated DauEntry entries = 1;
+};

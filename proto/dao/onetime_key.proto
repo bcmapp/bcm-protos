@@ -1,0 +1,9 @@
+syntax = "proto3";
+package bcm;
+
+message OnetimeKey {
+    string uid = 1;
+    uint32 deviceId = 2;
+    uint64 keyId = 3;
+    string publicKey = 4;
+}

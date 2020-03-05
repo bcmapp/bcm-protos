@@ -1,0 +1,13 @@
+syntax = "proto3";
+package bcm;
+
+message ContactsFilters {
+    uint32 algo = 1;
+    string content = 2;
+    string version = 3;
+}
+
+message ContactsFiltersField {
+    bool isClear = 1;
+    repeated string  modifyFields = 2;
+}

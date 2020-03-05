@@ -1,0 +1,13 @@
+syntax = "proto3";
+package bcm;
+
+message PreKey {
+    uint64 keyId = 1;
+    string publicKey = 2;
+}
+
+message SignedPreKey {
+    uint64 keyId = 1;
+    string publicKey = 2;
+    string signature = 3;
+}

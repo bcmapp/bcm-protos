@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package bcm;
+
+message MultiDeviceMessage {
+    enum Type {
+        DeviceLogin = 0; // content is slave device's deviceId , for master device
+        DeviceLogout = 1; // content is slave device's deviceId , for master device
+        DeviceAuth = 2; // content is DeviceAuthInfo below, for slave device
+        DeviceAvatarSync = 3; // content is AvatarSyncInfo below, for slave device
+        DeviceKickedByOther = 4; // content is other device deviceName, for slave device
+        DeviceKickedByMaster = 5; // content is master deviceName, for slave device
+        MasterLogout = 6; // content is master deviceName, for slave device
+    }
+
+    Type type = 1;
+    bytes content = 2;
+}
+
+message AvatarSyncInfo {
+    string contentType = 1;
+    uint64 contentLength = 2;
+    string content = 3;
+    string digest = 4;
+    string accountPublicKey = 5;
+    uint32 type = 6; // 1 for default, 2 for user defined
+    string avatarUrl = 7; // default avatar url
+    string nickName = 8; // user nickname, note only first word, for default avatar
+}
+
+message DeviceAuthInfo {
+    string uid = 1;
+    uint32 deviceId = 2;
+    string accountPublicKey = 3;
+    string accountSignature = 4;
+    string requestId = 5;
+}
+
+message MultiDeviceManage {
+    uint32 id = 1;
+    int32 action = 2;
+    int64 timestamp = 3;
+    int64 nounce = 4;
+    string signature = 5;
+}
+
+message DeviceLoginReqInfo {
+    string publicKey = 1;
+    int64 nounce = 2;
+    string signature = 3;
+    string deviceName = 4;
+    uint32 deviceId = 5;
+    int64 expireTime = 6;
+}

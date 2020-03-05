@@ -1,0 +1,239 @@
+syntax = "proto3";
+import "proto/dao/group_user.proto";
+import "proto/dao/group.proto";
+
+package bcm.dao.rpc;
+
+option cc_generic_services = true;
+
+message UserRole {
+    string uid = 1;
+    GroupUser.Role role = 2;
+}
+
+message QueryAllGroupRespInfo {
+    uint64 gid = 1;
+    string name = 2;
+    uint32 memberCnt = 3;
+    uint64 createTime = 4;
+    string owner = 5;
+};
+
+// insert group user
+message InsertGroupUserReq {
+    GroupUser groupUser = 1;
+};
+message InsertGroupUserResp {
+    uint32 resCode = 1;
+    GroupUser groupUser = 2;
+};
+
+message BatchInsertGroupUserReq {
+    repeated GroupUser groupUser = 1;
+};
+message BatchInsertGroupUserResp {
+    uint32 resCode = 1;
+    repeated GroupUser groupUser = 2;
+};
+
+//
+message GetGroupMemberRoleReq {
+    uint64 groupId = 1;
+    repeated string uid = 2;
+};
+message GetGroupMemberRoleResp {
+    uint32 resCode = 1;
+    uint64 groupId = 2;
+
+    repeated UserRole userRoles = 3;
+};
+
+//
+message DeleteGroupMembersReq {
+    uint64 groupId = 1;
+    repeated string uids = 2;
+};
+message DeleteGroupMembersResp {
+    uint32 resCode = 1;
+    uint64 groupId = 2;
+    repeated string uids = 3;
+};
+
+//
+message GetGroupMemberBatchReq {
+    uint64 groupId = 1;
+    repeated string uids = 2;
+};
+message GetGroupMemberBatchResp {
+    uint32 resCode = 1;
+    uint64 groupId = 2;
+    repeated GroupUser users = 3;
+};
+
+
+message BatchGetGroupMemberByRoleReq {
+    uint64 groupId = 1;
+    repeated GroupUser.Role roles = 2;
+};
+message BatchGetGroupMemberByRoleResp {
+    uint32 resCode = 1;
+    uint64 groupId = 2;
+    repeated GroupUser users = 3;
+};
+
+message PageGetGroupMemberByRoleReq {
+    uint64 groupId = 1;
+    repeated GroupUser.Role roles = 2;
+    string startUid = 3;
+    int32 count = 4;
+};
+message PageGetGroupMemberByRoleResp {
+    uint32 resCode = 1;
+    uint64 groupId = 2;
+    repeated GroupUser users = 3;
+};
+
+message GetJoinedGroupsReq {
+    string uid = 1;
+};
+message GetJoinedGroupsResp {
+    uint32 resCode = 1;
+    string uid = 2;
+    repeated uint64 gids = 3;
+};
+
+message GetGroupOwnerReq {
+    uint64 groupId = 1;
+};
+message GetGroupOwnerResp {
+    uint32 resCode = 1;
+    uint64 groupId = 2;
+    string owner = 3;
+};
+
+message GetMemberReq {
+    uint64 groupId = 1;
+    string uid = 2;
+};
+message GetMemberResp {
+    uint32 resCode = 1;
+    uint64 groupId = 2;
+    string uid = 3;
+    GroupUser user = 4;
+};
+
+message GroupsCounter {
+    string owner = 1;
+    uint32 memberCnt = 2;
+    uint32 subscriberCnt = 3;
+};
+
+message UserGroupsDetail {
+    Group group = 1;
+    GroupUser user = 2;
+    GroupsCounter counter = 3;
+};
+
+message GetJoinedGroupsListReq {
+    string uid = 1;
+};
+message GetJoinedGroupsListResp {
+    uint32 resCode = 1;
+    string uid = 2;
+    repeated UserGroupsDetail groups = 3;
+};
+
+message GetGroupDetailByGidReq {
+    uint64 groupId = 1;
+    string uid = 2;
+};
+message GetGroupDetailByGidResp {
+    uint32 resCode = 1;
+    uint64 groupId = 2;
+    string uid = 3;
+    UserGroupsDetail detail = 4;
+};
+
+message BatchGetGroupDetailByGidReq {
+    repeated uint64 groupIds = 1;
+    string uid = 2;
+};
+message BatchGetGroupDetailByGidResp {
+    uint32 resCode = 1;
+    repeated uint64 groupIds = 2;
+    string uid = 3;
+    repeated UserGroupsDetail details = 4;
+};
+
+message QueryGroupCountInfoByGidReq {
+    uint64 groupId = 1;
+};
+
+message QueryGroupCountInfoByGidResp {
+    uint32 resCode = 1;
+    uint64 groupId = 2;
+    GroupsCounter counter = 3;
+};
+
+message QueryGroupMemberInfoByGidReq {
+    uint64 groupId = 1;
+    string querier = 2;
+    string nextOwner = 3;
+};
+
+message QueryGroupMemberInfoByGidResp {
+    uint32 resCode = 1;
+    uint64 groupId = 2;
+    GroupsCounter counter = 3;
+    GroupUser.Role querierRole = 4;
+    GroupUser.Role nextOwnerRole = 5;
+};
+
+message UpdateGroupUserReq {
+    uint64 groupId = 1;
+    string uid = 2;
+    string jsonField = 3;
+};
+
+message UpdateGroupUserResp {
+    uint32 resCode = 1;
+    uint64 groupId = 2;
+    string uid = 3;
+};
+
+message GetMembersOrderByCreateTimeReq {
+    uint64 groupId = 1;
+    repeated GroupUser.Role roles = 2;
+    string startUid = 3;
+    int64 createTime = 4;
+    int32 count = 5;
+};
+message GetMembersOrderByCreateTimeResp {
+    uint32 resCode = 1;
+    repeated GroupUser users = 2;
+};
+
+service GroupUserService {
+    rpc insert(InsertGroupUserReq) returns (InsertGroupUserResp);
+    rpc insertBatch(BatchInsertGroupUserReq) returns (BatchInsertGroupUserResp);
+    rpc getMemberRoles(GetGroupMemberRoleReq) returns (GetGroupMemberRoleResp);
+    rpc delMemberBatch(DeleteGroupMembersReq) returns (DeleteGroupMembersResp);
+    rpc getMemberInfoBatch(GetGroupMemberBatchReq) returns (GetGroupMemberBatchResp);
+    rpc getMemberRangeByRolesBatch(BatchGetGroupMemberByRoleReq) returns (BatchGetGroupMemberByRoleResp);
+    rpc getMemberRangeByRolesPage(PageGetGroupMemberByRoleReq) returns (PageGetGroupMemberByRoleResp);
+
+    rpc getJoinedGroupsList(GetJoinedGroupsListReq) returns (GetJoinedGroupsListResp);
+    rpc getJoinedGroups(GetJoinedGroupsReq) returns (GetJoinedGroupsResp);
+    rpc getGroupDetailByGid(GetGroupDetailByGidReq) returns (GetGroupDetailByGidResp);
+    rpc getGroupDetailByGidBatch(BatchGetGroupDetailByGidReq) returns (BatchGetGroupDetailByGidResp);
+
+    rpc getGroupOwner(GetGroupOwnerReq) returns (GetGroupOwnerResp);
+    rpc getMember(GetMemberReq) returns (GetMemberResp);
+    rpc queryGroupCountInfoByGid(QueryGroupCountInfoByGidReq) returns (QueryGroupCountInfoByGidResp);
+    rpc queryGroupMemberInfoByGid(QueryGroupMemberInfoByGidReq) returns (QueryGroupMemberInfoByGidResp);
+    rpc update(UpdateGroupUserReq) returns (UpdateGroupUserResp);
+    rpc updateIfEmpty(UpdateGroupUserReq) returns (UpdateGroupUserResp);
+
+    rpc getMembersOrderByCreateTime(GetMembersOrderByCreateTimeReq) returns (GetMembersOrderByCreateTimeResp);
+};
+

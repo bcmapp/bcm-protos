@@ -1,0 +1,30 @@
+syntax = "proto3";
+import "proto/dao/qr_code_group_user.proto";
+package bcm.dao.rpc;
+
+option cc_generic_services = true;
+
+message SetQrCodeGroupUserReq {
+    QrCodeGroupUser user = 1;
+    int64 ttl = 2;
+};
+
+message SetQrCodeGroupUserResp {
+    uint32 resCode = 1;
+};
+
+message GetQrCodeGroupUserReq {
+    uint64 gid = 1;
+    string uid = 2;
+};
+
+message GetQrCodeGroupUserResp {
+    uint32 resCode = 1;
+    QrCodeGroupUser user = 2;
+};
+
+service QrCodeGroupUserService {
+    rpc setQrCodeGroupUser(SetQrCodeGroupUserReq) returns (SetQrCodeGroupUserResp);
+    rpc getQrCodeGroupUser(GetQrCodeGroupUserReq) returns (GetQrCodeGroupUserResp);
+};
+

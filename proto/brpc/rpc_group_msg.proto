@@ -1,0 +1,73 @@
+syntax = "proto3";
+import "proto/dao/group_msg.proto";
+import "proto/dao/group_user.proto";
+
+package bcm.dao.rpc;
+
+option cc_generic_services = true;
+
+// insert message
+message InsertGroupMessageReq {
+    GroupMsg msg = 1;
+};
+message InsertGroupMessageResp {
+    uint32 resCode = 1;
+    GroupMsg msg = 2;
+    uint64 newMid = 3;
+};
+
+// get message
+message GetGroupMsgReq {
+    uint64 groupId = 1;
+    uint64 mid = 2;
+}
+
+message GetGroupMsgResp {
+    uint32 resCode = 1;
+    GroupMsg msg = 2;
+}
+
+// batch get message
+message BatchGetGroupMsgReq {
+    uint64 groupId = 1;
+    uint64 from = 2;
+    uint64 to = 3;
+    int32 limit = 4;
+    GroupUser.Role role = 5;
+    bool supportRecall = 6;
+}
+
+message BatchGetGroupMsgResp {
+    uint32 resCode = 1;
+    uint64 groupId = 2;
+    uint64 from = 3;
+    uint64 to = 4;
+    GroupUser.Role role = 5;
+    bool supportRecall = 6;
+    repeated GroupMsg msgs = 7;
+}
+
+// recall message
+message RecallGroupMsgReq {
+    uint64 groupId = 1;
+    string uid = 2;
+    uint64 mid = 3;
+    string sourceExtra = 4;
+}
+
+message RecallGroupMsgResp {
+    uint32 resCode = 1;
+    uint64 groupId = 2;
+    string uid = 3;
+    uint64 mid = 4;
+    uint64 newMid = 5;
+    string sourceExtra = 6;
+}
+
+service GroupMsgsService {
+    rpc insert(InsertGroupMessageReq) returns (InsertGroupMessageResp);
+    rpc get(GetGroupMsgReq) returns (GetGroupMsgResp);
+    rpc batchGet(BatchGetGroupMsgReq) returns (BatchGetGroupMsgResp);
+    rpc recall(RecallGroupMsgReq) returns (RecallGroupMsgResp);
+};
+

@@ -1,0 +1,79 @@
+syntax = "proto3";
+import "proto/dao/stored_message.proto";
+package bcm.dao.rpc;
+
+option cc_generic_services = true;
+
+// get message
+message GetStoredMessageReq {
+    string destination = 1;
+    uint32 destinationDeviceId = 2;
+    uint32 limit = 3;
+};
+message GetStoredMessageResp {
+    uint32 resCode = 1;
+    string destination = 2;
+    uint32 destinationDeviceId = 3;
+
+    repeated StoredMessage msgs = 4;
+};
+
+// set message
+message SetStoredMessageReq {
+    StoredMessage msg = 1;
+};
+
+message SetStoredMessageResp {
+    uint32 resCode = 1;
+    string destination = 2;
+    uint32 destinationDeviceId = 3;
+    uint32 unreadMsgCount = 4;
+    string newMid = 5;
+};
+
+// delete message by destination msgid
+message DeleteMessageByIdReq {
+    string destination = 1;
+    uint64 id = 2;
+
+    repeated uint64 msg_ids = 3;
+};
+
+message DeleteMessageByIdResp {
+    uint32 resCode = 1;
+    string destination = 2;
+    uint64 id = 3;
+
+    repeated uint64 delete_ids = 4;
+};
+
+// clear message by destination
+message ClearMessageByDestReq {
+    string destination = 1;
+};
+
+message ClearMessageByDestResp {
+    uint32 resCode = 1;
+    string destination = 2;
+};
+
+// clear message by destination and deviceId
+message ClearMessageByDeviceReq {
+    string destination = 1;
+    uint32 destinationDeviceId = 2;
+};
+
+message ClearMessageByDeviceResp {
+    uint32 resCode = 1;
+    string destination = 2;
+    uint32 destinationDeviceId = 3;
+};
+
+service MessageService {
+    rpc load(GetStoredMessageReq) returns (GetStoredMessageResp);
+    rpc set(SetStoredMessageReq) returns (SetStoredMessageResp);
+    rpc delMessageById(DeleteMessageByIdReq) returns (DeleteMessageByIdResp);
+    rpc clearMessageByDest(ClearMessageByDestReq) returns (ClearMessageByDestResp);
+    rpc clearMessageByDevice(ClearMessageByDeviceReq) returns (ClearMessageByDeviceResp);
+};
+

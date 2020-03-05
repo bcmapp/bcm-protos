@@ -1,0 +1,38 @@
+syntax = "proto3";
+package bcm;
+
+message GroupMsg {
+    enum Type {
+        TYPE_UNKNOWN         = 0;
+        TYPE_CHAT            = 1;
+        TYPE_CHANNEL         = 2; // for subscribers, also chat message
+        TYPE_INFO_UPDATE     = 3;
+        TYPE_MEMBER_UPDATE   = 4;
+        TYPE_GAME            = 5; // deprecated
+        TYPE_RECALL          = 6;
+        TYPE_NOISE           = 7;
+        TYPE_JOIN_REVIEW     = 8;
+        TYPE_KEY_REFRESH     = 9;
+        TYPE_SWITCH_GROUP_KEYS = 10;
+        TYPE_UPDATE_GROUP_KEYS_REQUEST = 11;
+    }
+
+    enum Status {
+        STATUS_UNKNOWN      = 0;
+        STATUS_NORMAL       = 1;
+        STATUS_RECALLED     = 2;
+    }
+
+    uint64 gid = 1;
+    string fromUid = 2;
+    string text = 3;
+    uint64 updateTime = 4;
+    uint64 mid = 5;
+    Type type = 6;
+    int32 status = 7;
+    int32 atAll = 8;
+    string atList = 9;
+    uint64 createTime = 10;
+    string sourceExtra = 11;
+    string verifySig = 12;
+}

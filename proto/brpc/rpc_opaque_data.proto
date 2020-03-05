@@ -1,0 +1,27 @@
+syntax="proto3";
+
+package bcm.dao.rpc;
+option cc_generic_services = true;
+
+message SetOpaqueReq {
+    string key = 1;
+    string value = 2;
+}
+
+message SetOpaqueResp {
+    uint32 resCode = 1;
+}
+
+message GetOpaqueReq {
+    string key = 1;
+}
+
+message GetOpaqueResp {
+    uint32 resCode = 1;
+    string value = 2;
+}
+
+service OpaqueDataService {
+    rpc setOpaque(SetOpaqueReq) returns (SetOpaqueResp);
+    rpc getOpaque(GetOpaqueReq) returns (GetOpaqueResp);
+}

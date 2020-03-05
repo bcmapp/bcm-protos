@@ -1,0 +1,19 @@
+syntax = "proto3";
+package bcm;
+
+message GroupKeys {
+
+    enum GroupKeysMode {
+        ONE_FOR_EACH = 0;
+        ALL_THE_SAME = 1;
+        UNKNOWN = 2;
+    }
+
+    uint64 gid = 1;
+    int64 version = 2;
+    string groupOwner = 3;
+    string groupKeys = 4;
+    GroupKeysMode mode = 5;
+    string creator = 6;
+    int64 createTime = 7;
+}

@@ -1,0 +1,38 @@
+syntax="proto3";
+import "proto/dao/sign_up_challenge.proto";
+
+package bcm.dao.rpc;
+option cc_generic_services = true;
+
+
+message GetSignUpChallengeReq {
+    string uid = 1;
+};
+
+message GetSignUpChallengeResp {
+    uint32 resCode = 1;
+    bcm.SignUpChallenge challenge = 2;
+};
+
+message SetSignUpChallengeReq {
+    string uid = 1;
+    bcm.SignUpChallenge challenge = 2;
+};
+
+message SetSignUpChallengeResp {
+    uint32 resCode = 1;
+};
+
+message DelSignUpChallengeReq {
+    string uid = 1;
+};
+
+message DelSignUpChallengeResp {
+    uint32 resCode = 1;
+};
+
+service SignUpChallengeService {
+    rpc getSignUpChallenge(GetSignUpChallengeReq) returns (GetSignUpChallengeResp);
+    rpc setSignUpChallenge(SetSignUpChallengeReq) returns (SetSignUpChallengeResp);
+    rpc delSignUpChallenge(DelSignUpChallengeReq) returns (DelSignUpChallengeResp);
+};

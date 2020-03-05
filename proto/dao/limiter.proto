@@ -1,0 +1,9 @@
+syntax = "proto3";
+package bcm;
+
+message Limiter {
+    uint32 capacity = 1;
+    double rate = 2;
+    double allowance = 3;
+    uint64 timestamp = 4;
+}

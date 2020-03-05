@@ -1,0 +1,7 @@
+syntax = "proto3";
+package bcm;
+
+message QrCodeGroupUser {
+    uint64 gid = 1;
+    string uid = 2;
+}

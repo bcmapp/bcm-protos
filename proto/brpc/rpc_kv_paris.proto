@@ -1,0 +1,55 @@
+syntax="proto3";
+
+package bcm.dao.rpc;
+option cc_generic_services = true;
+
+message KVPair {
+    string key = 1;
+    string value = 2;
+}
+
+message SetKVPairReq {
+    string hashKey = 1;
+    repeated KVPair data = 2;
+};
+
+message SetKVPairResp {
+    uint32 resCode = 1;
+};
+
+message MultiGetKVPairReq {
+    string hashKey = 1;
+    repeated string keys = 2;
+};
+
+message MultiGetKVPairResp {
+    uint32 resCode = 1;
+    repeated KVPair data = 2;
+};
+
+message PageGetKVPairReq {
+    string hashKey = 1;
+    string startSortkey = 2;
+    int32 limit = 3;
+};
+
+message PageGetKVPairResp {
+    uint32 resCode = 1;
+    repeated KVPair data = 2;
+};
+
+message DelKVPairReq {
+    string hashKey = 1;
+    repeated string keys = 2;
+};
+
+message DelKVPairResp {
+    uint32 resCode = 1;
+};
+
+service KVPairsService {
+    rpc setKVPairs(SetKVPairReq) returns (SetKVPairResp);
+    rpc getKVPairs(MultiGetKVPairReq) returns (MultiGetKVPairResp);
+    rpc pageGetKVPairs(PageGetKVPairReq) returns (PageGetKVPairResp);
+    rpc delKVPairs(DelKVPairReq) returns (DelKVPairResp);
+};

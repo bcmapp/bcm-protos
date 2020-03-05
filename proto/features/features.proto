@@ -1,0 +1,11 @@
+syntax = "proto3";
+package bcm;
+
+enum Feature {
+    FEATURE_FEATURES = 0;
+    FEATURE_BIDIRECTIONAL_CONTACT = 1;
+    FEATURE_AWS = 2;
+    FEATURE_GROUP_V3_SUPPORT = 3;
+    FEATURE_ALIYUN_UPLOAD = 4;
+    FEATURE_MULTI_DEVICE = 5;
+}

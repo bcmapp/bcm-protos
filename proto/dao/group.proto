@@ -1,0 +1,43 @@
+syntax = "proto3";
+package bcm;
+
+message Group {
+    enum EncryptStatus {
+        ENCRYPT_STATUS_OFF = 0;
+        ENCRYPT_STATUS_ON = 1;
+        ENCRYPT_STATUS_INVALID = -1;
+    }
+
+    enum BroadcastStatus {
+        BROADCAST_OFF = 0;
+        BROADCAST_INNER = 1;
+        BROADCAST_INTER = 2;
+        BROADCAST_INVALID = -1;
+    }
+
+    uint64 gid = 1;
+    string name = 2; // deprecated - to delete
+    string icon = 3; // deprecated - to delete
+    int32 permission = 4;
+    uint64 updateTime = 5;
+    uint64 lastMid = 6;
+    BroadcastStatus broadcast = 7;
+    int32 status = 8;
+    string channel = 9;
+    string intro = 10;
+    string key = 11;
+    EncryptStatus encryptStatus = 12;
+    string plainChannelKey = 13;
+    string notice = 14; // deprecated - to delete
+    uint64 createTime = 15;
+    string shareQRCodeSetting = 16;
+    int32 ownerConfirm = 17;
+    string shareSignature = 18;
+    string shareAndOwnerConfirmSignature = 19;
+    string encryptedGroupInfoSecret = 20;
+    int32 version = 21;
+    string encryptedEphemeralKey = 22;
+    string encryptedName = 23;
+    string encryptedIcon = 24;
+    string encryptedNotice = 25;
+}

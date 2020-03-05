@@ -1,0 +1,20 @@
+syntax = "proto3";
+package bcm;
+
+message ClientVersion {
+    enum OSType {
+        OSTYPE_UNKNOWN = 0;
+        OSTYPE_ANDROID = 1;
+        OSTYPE_IOS = 2;
+        OSTYPE_MAC = 3;
+        OSTYPE_WINDOWS = 4;
+        OSTYPE_LINUX = 5;
+    }
+    OSType osType = 1;
+    string osVersion = 2;
+    string phoneModel = 3;
+    string bcmVersion = 4;
+    uint64 bcmBuildCode = 5;
+    uint32 areaCode = 6;
+    string langCode = 7;
+}

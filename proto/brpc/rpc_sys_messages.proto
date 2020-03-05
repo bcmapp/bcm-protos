@@ -1,0 +1,52 @@
+syntax="proto3";
+import "proto/dao/sys_msg.proto";
+
+package bcm.dao.rpc;
+
+option cc_generic_services = true;
+
+
+message InsertSysMessageReq {
+    repeated SysMsg sys_msg = 1;
+};
+
+message InsertSysMessageResp {
+    uint32 resCode = 1;
+};
+
+
+message GetSysMessageInfoReq {
+    string destination = 1;
+    uint32 limit = 2;
+};
+
+message GetSysMessageInfoResp {
+    uint32 resCode = 1;
+    repeated SysMsg msgs = 3;
+};
+
+message BatchDeleteSysMessageReq {
+    string destination = 1;
+    repeated uint64 msg_ids = 2;
+};
+
+message BatchDeleteSysMessageResp {
+    uint32 resCode = 1;
+};
+
+message CleanSysMessageReq {
+    string destination = 1;
+    uint64 maxMid = 2;
+};
+
+message CleanSysMessageResp {
+    uint32 resCode = 1;
+};
+
+service SysMessagesService {
+    rpc insert(InsertSysMessageReq) returns (InsertSysMessageResp);
+    rpc get(GetSysMessageInfoReq) returns (GetSysMessageInfoResp);
+    rpc batchDelete(BatchDeleteSysMessageReq) returns (BatchDeleteSysMessageResp);
+    rpc cleanSysMsg(CleanSysMessageReq) returns (CleanSysMessageResp);
+};
+

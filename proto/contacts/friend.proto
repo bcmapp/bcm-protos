@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package bcm;
+
+message FriendRequest {
+    string proposer = 1;      // 申请人的uid（已加密）
+    uint64 timestamp = 2;     // /v2/contacts/friends/request请求中的时间戳
+    string payload = 3;       // /v2/contacts/friends/request请求中的payload
+    string signature = 4;     // 请求的签名， 参考上面的/v2/contacts/friends/request
+}
+
+message FriendReply {
+    bool approved = 1;           // true = 同意； false = 拒绝
+    string target = 2;           // 好友uid（已加密）
+    uint64 timestamp = 3;        // /v2/contacts/friends/request请求中的时间戳
+    string payload = 4;          // /v2/contacts/friends/request请求中的payload
+    string signature = 5;        // 回应的签名，参考上面的/v2/contacts/friends/reply
+    string requestSignature = 6; // 回传/v2/contacts/friends/request请求的签名
+}
+
+message DeleteFriend {
+    string proposer = 1;      // 发起删除操作的用户uid（已加密）
+    uint64 timestamp = 2;     // 发出删除的UTC时间戳，毫秒
+    string signature = 3;     // 删除请求的签名，参考上面的/v2/contacts/friends/delete
+}
+
+message FriendMessage {
+    repeated FriendRequest requests = 1;
+    repeated FriendReply replies = 2;
+    repeated DeleteFriend deletes = 3;
+}

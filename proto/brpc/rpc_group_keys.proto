@@ -1,0 +1,64 @@
+syntax = "proto3";
+import "proto/dao/group_keys.proto";
+package bcm.dao.rpc;
+
+option cc_generic_services = true;
+
+message SetGroupKeysReq {
+    GroupKeys groupKeys = 1;
+};
+
+message SetGroupKeysResp {
+    uint32 resCode = 1;
+};
+
+message GetGroupKeysReq {
+    uint64 gid = 1;
+    repeated int64 versions = 2;
+};
+
+message GetGroupKeysResp {
+    uint32 resCode = 1;
+    repeated GroupKeys groupKeys = 2;
+};
+
+message GetLatestGroupMessageKeysReq {
+    repeated uint64 gids = 1;
+};
+
+message GetLatestGroupMessageKeysResp {
+    uint32 resCode = 1;
+    repeated GroupKeys keys = 2;
+};
+
+message GetLatestModeAndVersionBatchReq {
+    repeated uint64 gids = 1;
+};
+
+message LatestModeAndVersion {
+    uint64 gid = 1;
+    GroupKeys.GroupKeysMode mode = 2;
+    int64 version = 3;
+}
+
+message GetLatestModeAndVersionBatchResp {
+    uint32 resCode = 1;
+    repeated LatestModeAndVersion mvs = 2;
+};
+
+message ClearGroupKeysReq {
+    uint64 gid = 1;
+};
+
+message ClearGroupKeysResp {
+    uint32 resCode = 1;
+};
+
+service GroupKeyService {
+    rpc setGroupKeys(SetGroupKeysReq) returns (SetGroupKeysResp);
+    rpc getGroupKeys(GetGroupKeysReq) returns (GetGroupKeysResp);
+    rpc getLatestGroupKeys(GetLatestGroupMessageKeysReq) returns (GetLatestGroupMessageKeysResp);
+    rpc getLatestModeAndVersionBatch(GetLatestModeAndVersionBatchReq) returns (GetLatestModeAndVersionBatchResp);
+    rpc clear(ClearGroupKeysReq) returns (ClearGroupKeysResp);
+};
+
